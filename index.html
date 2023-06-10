@@ -11,6 +11,7 @@
     <body>
         <navbar
             :pages="pages"
+            :nav-link-click="(index) => console.log(index)"
         ></navbar>
 
         <page-viewer :page-title="pageTitle"></page-viewer>
@@ -19,7 +20,21 @@
             let app = Vue.createApp({
                 data() {
                     return {
-                        pages: ['Home', 'About', 'Contact'],
+                        activePage: 0,
+                        pages: [
+                            {
+                                title: 'Home',
+                                content: 'Home'
+                            },
+                            {
+                                title: 'About',
+                                content: 'About'
+                            },
+                            {
+                                title: 'Contact',
+                                content: 'Contact'
+                            }
+                        ],
                         pageTitle: 'Hello, Vue'
                     };
                 },
@@ -44,7 +59,7 @@
             });
 
             app.component('navbar', {
-                props: ['pages'],
+                props: ['pages', 'nav-link-click'],
                 template: `
                     <nav 
                         :class="[\`navbar-\${theme}\`, \`bg-\${theme}\`, 'navbar', 'navbar-expand-lg']"
@@ -52,11 +67,15 @@
                         <div class="container fluid">
                             <a class="navbar-brand" href="#">My Vue</a>
                             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                                <li v-for="page in pages" class="nav-item">
+                                <li v-for="(page, index) in pages" class="nav-item">
                                     <a 
                                         class="nav-link" 
                                         aria-current="page" 
-                                        href="#">{{ page }}</a>
+                                        href="#"
+                                        @click.prevent="navLinkClick(index)"
+                                        >
+                                        {{ page.title }}
+                                    </a>
                                 </li>
                             </ul>
                             <form class="d-flex">
