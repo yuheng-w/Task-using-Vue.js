@@ -9,38 +9,17 @@
         <script src="https://unpkg.com/vue@3"></script>
     </head>
     <body>
-        <nav 
-            :class="[`navbar-${theme}`, `bg-${theme}`, 'navbar', 'navbar-expand-lg']"
-        >
-            <div class="container fluid">
-                <a class="navbar-brand" href="#">My Vue</a>
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li v-for="link in links" class="nav-item">
-                        <a 
-                            class="nav-link" 
-                            aria-current="page" 
-                            href="#">{{ link }}</a>
-                    </Li>
-                <ul>
-                <form class="d-flex">
-                    <button
-                        class="btn btn-primary"
-                        @click.prevent="changeTheme()"
-                    >Toggle Navbar</button>
-                </form>
-            </div>
-        </nav>
+        <navbar
+            :pages="pages"
+        ></navbar>
 
-        <div id="content" class="container">
-            <h1> {{ pageTitle }}</h1>
-        </div>
+        <page-viewer :page-title="pageTitle"></page-viewer>
         
         <script>
-            Vue.createApp({
+            let app = Vue.createApp({
                 data() {
                     return {
-                        theme: 'light',
-                        links: ['Home', 'About', 'Contact'],
+                        pages: ['Home', 'About', 'Contact'],
                         pageTitle: 'Hello, Vue'
                     };
                 },
@@ -53,7 +32,60 @@
                         this.theme = theme;
                     }
                 }
-            }).mount('body');
+            });
+
+            app.component('page-viewer', {
+                props: ['pageTitle'],
+                template: `
+                    <div class="container">
+                        <h1> {{pageTitle}} </h1>
+                    </div>
+                `
+            });
+
+            app.component('navbar', {
+                props: ['pages'],
+                template: `
+                    <nav 
+                        :class="[\`navbar-\${theme}\`, \`bg-\${theme}\`, 'navbar', 'navbar-expand-lg']"
+                    >
+                        <div class="container fluid">
+                            <a class="navbar-brand" href="#">My Vue</a>
+                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                <li v-for="page in pages" class="nav-item">
+                                    <a 
+                                        class="nav-link" 
+                                        aria-current="page" 
+                                        href="#">{{ page }}</a>
+                                </li>
+                            </ul>
+                            <form class="d-flex">
+                                <button
+                                    class="btn btn-primary"
+                                    @click.prevent="changeTheme()"
+                                >Toggle Navbar</button>
+                            </form>
+                        </div>
+                    </nav>
+                `,
+
+                data() {
+                    return {
+                        theme: 'light'
+                    }
+                },
+                methods: {
+                    changeTheme() {
+                        let theme = 'light'; 
+                        if (this.theme == 'light') {
+                            theme = 'dark';
+                        }
+                        this.theme = theme;
+                    }
+                }
+            })
+
+            app.mount('body');
         </script>
     </body>
 </html>
