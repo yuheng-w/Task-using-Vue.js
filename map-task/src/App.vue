@@ -1,5 +1,6 @@
 <template>
     <nav-bar
+        v-if="pages.length > 0"
         :pages="pages"
         :nav-link-click="(index) => console.log(index)"
     ></nav-bar>
@@ -17,24 +18,13 @@ export default {
         PageViewer,
         NavBar
     },
-
+    created () {
+        this.getPages();
+    },
     data() {
         return {
             activePage: 0,
-            pages: [
-                {
-                    title: 'Home',
-                    content: 'Home'
-                },
-                {
-                    title: 'About',
-                    content: 'About'
-                },
-                {
-                    title: 'Contact',
-                    content: 'Contact'
-                }
-            ],
+            pages: [],
             pageTitle: 'Hello, Vue'
         };
     },
@@ -45,6 +35,13 @@ export default {
                 theme = 'dark';
             }
             this.theme = theme;
+        },
+
+        async getPages() {
+            let res = await fetch('pages.json');
+            let data = await res.json();
+
+            this.pages = data;
         }
     }
 }
