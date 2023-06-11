@@ -1,22 +1,27 @@
 <template>
+
     <nav-bar
         v-if="pages.length > 0"
         :pages="pages"
         :nav-link-click="(index) => console.log(index)"
     ></nav-bar>
-
-    <page-viewer :page-title="pageTitle"></page-viewer>
+    <div class="container">
+        <page-viewer :page-title="pageTitle"></page-viewer>
+        <input-field :submit-function="submitFunction"></input-field>
+    </div>
 </template>
 
 
 <script>
 import PageViewer from './components/PageViewer.vue';
 import NavBar from './components/NavBar.vue';
+import InputField from './components/InputField.vue';
 
 export default {
     components: {
         PageViewer,
-        NavBar
+        NavBar,
+        InputField
     },
     created () {
         this.getPages();
@@ -42,6 +47,10 @@ export default {
             let data = await res.json();
 
             this.pages = data;
+        },
+
+        submitFunction(content) {
+            console.log(content);
         }
     }
 }
