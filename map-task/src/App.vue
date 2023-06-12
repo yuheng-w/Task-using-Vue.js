@@ -1,5 +1,4 @@
 <template>
-
     <nav-bar
         v-if="pages.length > 0"
         :pages="pages"
@@ -9,6 +8,7 @@
         <page-viewer :page-title="pageTitle"></page-viewer>
         <input-field :submit-function="submitFunction"></input-field>
     </div>
+    <GoogelMap />
 </template>
 
 
@@ -16,12 +16,14 @@
 import PageViewer from './components/PageViewer.vue';
 import NavBar from './components/NavBar.vue';
 import InputField from './components/InputField.vue';
+import GoogelMap from "./components/GoogelMap.vue";
 
 export default {
     components: {
         PageViewer,
         NavBar,
-        InputField
+        InputField,
+        GoogelMap
     },
     created () {
         this.getPages();
@@ -30,7 +32,9 @@ export default {
         return {
             activePage: 0,
             pages: [],
-            pageTitle: 'Hello, Vue'
+            pageTitle: 'Hello, Vue',
+
+            center: {lat: 37.7749, lng: -122.4194}
         };
     },
     methods: {

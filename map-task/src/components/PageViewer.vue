@@ -2,6 +2,7 @@
     <div id="content" class="container">
         <h1> {{ pageTitle }}</h1>
         <div> Current time: {{ time }} </div>
+
     </div>
 </template>
 
@@ -13,6 +14,10 @@ export default {
         return {
             time: ""
         };
+    },
+    created() {
+        const apiUrl = process.env.VUE_APP_GOOGLE_MAPS_API_KEY;
+        console.log(apiUrl);
     },
 
     mounted() {
