@@ -2,10 +2,10 @@
     <form>
         <input
             type="text"
-            v-model="content"
+            v-model="address"
         />
         <button
-            @click.prevent="submitFunction({content})"
+            @click.prevent="submitFunction(address)"
         > Submit </button>
     </form>
 </template>
@@ -15,7 +15,7 @@ export default {
     props: ['submitFunction'],
     data() {
         return {
-            content: ''
+            address: ''
         }
     }
 }

@@ -4,26 +4,18 @@
         :pages="pages"
         :nav-link-click="(index) => console.log(index)"
     ></nav-bar>
-    <div class="container">
-        <page-viewer :page-title="pageTitle"></page-viewer>
-        <input-field :submit-function="submitFunction"></input-field>
-    </div>
-    <GoogelMap />
+    <GoogleMap />
 </template>
 
 
 <script>
-import PageViewer from './components/PageViewer.vue';
 import NavBar from './components/NavBar.vue';
-import InputField from './components/InputField.vue';
-import GoogelMap from "./components/GoogelMap.vue";
+import GoogleMap from "./components/GoogleMap.vue";
 
 export default {
     components: {
-        PageViewer,
         NavBar,
-        InputField,
-        GoogelMap
+        GoogleMap
     },
     created () {
         this.getPages();
@@ -52,10 +44,6 @@ export default {
 
             this.pages = data;
         },
-
-        submitFunction(content) {
-            console.log(content);
-        }
     }
 }
 </script>
