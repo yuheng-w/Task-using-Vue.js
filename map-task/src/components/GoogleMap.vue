@@ -6,7 +6,10 @@
         <Marker :options="{ position: center }" />
     </GoogleMap>
     <input-field :submit-function="submitFunction"></input-field>
-    <SearchRecords :records="records"></SearchRecords>
+    <div>
+        <button @click.prevent="deleteRecords"> Delete </button>
+        <SearchRecords :records="records"></SearchRecords>
+    </div>
 </template>
 
 <script>
@@ -41,6 +44,9 @@ export default defineComponent({
                 }
             });
         },
+        deleteRecords() {
+            this.records = [];
+        }
     }
     
 });
