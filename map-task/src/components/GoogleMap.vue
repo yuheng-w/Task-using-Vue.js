@@ -3,23 +3,23 @@
         :api-key="apiKey"
         style="width: 100%; height: 500px" :center="center" :zoom="15"
     >
-        <Marker :options="{ position: center }" />
+        <div>
+            <input-field :submit-function="submitFunction"></input-field>
+            <button @click.prevent="deleteRecords"> Delete </button>
+            <SearchedRecords :records="records"></SearchedRecords>
+        </div>
     </GoogleMap>
-    <input-field :submit-function="submitFunction"></input-field>
-    <div>
-        <button @click.prevent="deleteRecords"> Delete </button>
-        <SearchRecords :records="records"></SearchRecords>
-    </div>
+
 </template>
 
 <script>
 import { defineComponent } from "vue";
-import { GoogleMap, Marker } from "vue3-google-map";
+import { GoogleMap } from "vue3-google-map";
 import InputField from "./InputField.vue";
-import SearchRecords from "./SearchRecords.vue";
+import SearchedRecords from "./SearchedRecords.vue";
 
 export default defineComponent({
-    components: { GoogleMap, Marker, InputField, SearchRecords },
+    components: { GoogleMap, InputField, SearchedRecords },
     data () {
         return {
             apiKey: process.env.VUE_APP_GOOGLE_MAPS_API_KEY,
@@ -41,6 +41,8 @@ export default defineComponent({
                     let location = res.results[0].geometry.location;
                     this.center = location;
                     this.records.unshift(res);
+                    // let temp = this.records;
+                    // this.records = [res, ...temp];
                 }
             });
         },
