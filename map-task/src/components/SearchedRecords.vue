@@ -1,6 +1,9 @@
 <template>
     <div>
         <ul>
+            <div v-for="(record, index) in records" :key="index">
+                <Marker :options="{ position: record.results[0].geometry.location }" />
+            </div>
             <li v-for="(record, index) in displayedItems" :key="index">
                 <SingleRecord :record="record"></SingleRecord>
                 <div v-if="start + index === 0"> {{ timezone }} <br> {{ localTime }}</div>
@@ -19,9 +22,11 @@
 
 <script>
 import SingleRecord from './SingleRecord.vue';
+import { Marker } from "vue3-google-map";
+
 
 export default {
-    components: { SingleRecord },
+    components: { SingleRecord, Marker },
     props: ['records'],
     data() {
         return {
@@ -30,14 +35,14 @@ export default {
             localTime: "",
             currentPage: 1,
             itemsPerPage: 10,
-            // start: 0,
-            // end: 10
         }
     },
+
     mounted() {
         this.computeTime();
         setInterval(this.computeTime, 1000);
     },
+
     methods: {
         async fetchTimeZone() {
                 let lat = this.records[0].results[0].geometry.location.lat;
@@ -58,7 +63,6 @@ export default {
                 });
             }
         },
-
         nextPage() {
             if (this.currentPage < this.totalPages) {
             this.currentPage++;

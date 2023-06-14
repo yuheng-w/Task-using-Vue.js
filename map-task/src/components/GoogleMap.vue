@@ -41,8 +41,6 @@ export default defineComponent({
                     let location = res.results[0].geometry.location;
                     this.center = location;
                     this.records.unshift(res);
-                    // let temp = this.records;
-                    // this.records = [res, ...temp];
                 }
             });
         },
