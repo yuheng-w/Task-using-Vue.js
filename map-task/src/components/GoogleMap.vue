@@ -1,4 +1,5 @@
 <template>
+    <!-- Map -->
     <GoogleMap 
         :api-key="apiKey"
         style="width: 100%; height: 500px" :center="center" :zoom="5"

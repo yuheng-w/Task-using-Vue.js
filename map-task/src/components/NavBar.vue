@@ -5,6 +5,7 @@
         <div class="container fluid">
             <a class="navbar-brand" href="#">Map Search</a>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <!-- Display all pages if there are more than one -->
                 <li v-for="(page, index) in pages" :key="index" class="nav-item">
                     <a 
                         class="nav-link" 
@@ -16,6 +17,7 @@
                     </a>
                 </li>
             </ul>
+            <!-- Button for change Theme -->
             <form class="d-flex">
                 <button
                     class="btn btn-primary"

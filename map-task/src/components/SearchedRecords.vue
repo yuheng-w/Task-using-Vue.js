@@ -1,18 +1,23 @@
 <template>
     <div>
         <ul>
+            <!-- Marker for all records -->
             <div v-for="(record, index) in records" :key="index">
                 <Marker :options="{ position: record.results[0].geometry.location }" />
             </div>
+
+            <!-- Records in current page -->
             <li v-for="(record, index) in displayedItems" :key="index">
                 <input type="checkbox" @change="selectedCheckboxes(seletectedItems)" :value="start + index" v-model="seletectedItems">
                 <SingleRecord :record="record"></SingleRecord>
+                <!-- Time zone & local time for latest record -->
                 <div v-if="start + index === this.records.length - 1"> {{ timezone }} <br> {{ localTime }}</div>
             </li>
         </ul>
+
+        <!-- Pagination -->
         <button @click="previousPage" :disabled="currentPage === 1">Previous</button>
         <button @click="nextPage" :disabled="currentPage === totalPages">Next</button>
-        
         <div>
             <span v-for="pageNumber in totalPages" :key="pageNumber">
                 <button @click="goToPage(pageNumber)">{{ pageNumber }}</button>
