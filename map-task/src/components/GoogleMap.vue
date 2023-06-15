@@ -1,12 +1,12 @@
 <template>
     <GoogleMap 
         :api-key="apiKey"
-        style="width: 100%; height: 500px" :center="center" :zoom="2"
+        style="width: 100%; height: 500px" :center="center" :zoom="5"
     >
         <div>
             <input-field :submit-function="submitFunction"></input-field>
             <button @click.prevent="deleteItems()"> Delete </button>
-            <SearchedRecords :records="records" :selectedCheckboxes="selectedCheckboxes"></SearchedRecords>
+            <SearchedRecords :records="records" :selectedCheckboxes="selectedCheckboxes" :key="records"></SearchedRecords>
         </div>
     </GoogleMap>
 
@@ -49,10 +49,7 @@ export default defineComponent({
             this.seletectedItems = seletectedItems;
         },
         deleteItems() {
-            this.seletectedItems.sort((a, b) => b - a);
-            for (const index of this.seletectedItems) {
-                this.records.splice(index, 1);
-            }
+            this.records = this.records.filter((_, index) => !this.seletectedItems.includes(index));
         }
     }
     

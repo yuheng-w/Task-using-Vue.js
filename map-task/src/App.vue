@@ -7,7 +7,6 @@
     <GoogleMap />
 </template>
 
-
 <script>
 import NavBar from './components/NavBar.vue';
 import GoogleMap from "./components/GoogleMap.vue";

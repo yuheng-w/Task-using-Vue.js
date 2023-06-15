@@ -3,7 +3,7 @@
         :class="[`navbar-${theme}`, `bg-${theme}`, 'navbar', 'navbar-expand-lg']"
     >
         <div class="container fluid">
-            <a class="navbar-brand" href="#">My Vue</a>
+            <a class="navbar-brand" href="#">Map Search</a>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li v-for="(page, index) in pages" :key="index" class="nav-item">
                     <a 
@@ -20,7 +20,7 @@
                 <button
                     class="btn btn-primary"
                     @click.prevent="changeTheme()"
-                >Toggle Navbar</button>
+                >Change Theme</button>
             </form>
         </div>
     </nav>
