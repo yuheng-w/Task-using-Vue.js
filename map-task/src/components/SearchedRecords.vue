@@ -5,8 +5,9 @@
                 <Marker :options="{ position: record.results[0].geometry.location }" />
             </div>
             <li v-for="(record, index) in displayedItems" :key="index">
+                <input type="checkbox" @change="selectedCheckboxes(seletectedItems)" :value="start + index" v-model="seletectedItems">
                 <SingleRecord :record="record"></SingleRecord>
-                <div v-if="start + index === 0"> {{ timezone }} <br> {{ localTime }}</div>
+                <div v-if="start + index === this.records.length - 1"> {{ timezone }} <br> {{ localTime }}</div>
             </li>
         </ul>
         <button @click="previousPage" :disabled="currentPage === 1">Previous</button>
@@ -27,7 +28,17 @@ import { Marker } from "vue3-google-map";
 
 export default {
     components: { SingleRecord, Marker },
-    props: ['records'],
+    props: {
+        records: {
+            type: Array,
+            required: true
+        },
+        selectedCheckboxes: {
+            type: Function,
+            required: true
+        },
+    },
+
     data() {
         return {
             apiKey: process.env.VUE_APP_GOOGLE_MAPS_API_KEY,
@@ -35,6 +46,7 @@ export default {
             localTime: "",
             currentPage: 1,
             itemsPerPage: 10,
+            seletectedItems:[]
         }
     },
 
@@ -45,8 +57,8 @@ export default {
 
     methods: {
         async fetchTimeZone() {
-                let lat = this.records[0].results[0].geometry.location.lat;
-                let lng = this.records[0].results[0].geometry.location.lng;
+                let lat = this.records[this.records.length - 1].results[0].geometry.location.lat;
+                let lng = this.records[this.records.length - 1].results[0].geometry.location.lng;
                 const url = `https://maps.googleapis.com/maps/api/timezone/json?location=${lat},${lng}&timestamp=${Math.floor(Date.now() / 1000)}&key=${this.apiKey}`;
                 const res = await fetch(url);
                 return res.json();

@@ -1,12 +1,12 @@
 <template>
     <GoogleMap 
         :api-key="apiKey"
-        style="width: 100%; height: 500px" :center="center" :zoom="15"
+        style="width: 100%; height: 500px" :center="center" :zoom="2"
     >
         <div>
             <input-field :submit-function="submitFunction"></input-field>
-            <button @click.prevent="deleteRecords"> Delete </button>
-            <SearchedRecords :records="records"></SearchedRecords>
+            <button @click.prevent="deleteItems()"> Delete </button>
+            <SearchedRecords :records="records" :selectedCheckboxes="selectedCheckboxes"></SearchedRecords>
         </div>
     </GoogleMap>
 
@@ -24,7 +24,8 @@ export default defineComponent({
         return {
             apiKey: process.env.VUE_APP_GOOGLE_MAPS_API_KEY,
             center: { lat: 43.6515, lng: -79.3835 },
-            records: []
+            records: [],
+            seletectedItems:[]
         }
     },
     methods: {
@@ -40,12 +41,18 @@ export default defineComponent({
                 if (res.status === 'OK') {
                     let location = res.results[0].geometry.location;
                     this.center = location;
-                    this.records.unshift(res);
+                    this.records.push(res);
                 }
             });
         },
-        deleteRecords() {
-            this.records = [];
+        selectedCheckboxes(seletectedItems) {
+            this.seletectedItems = seletectedItems;
+        },
+        deleteItems() {
+            this.seletectedItems.sort((a, b) => b - a);
+            for (const index of this.seletectedItems) {
+                this.records.splice(index, 1);
+            }
         }
     }
     

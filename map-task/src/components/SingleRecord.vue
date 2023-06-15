@@ -1,5 +1,5 @@
 <template>
-    <a> {{ record.results[0].formatted_address }} </a>
+        {{ record.results[0].formatted_address }} 
 </template>
 
 <script>
