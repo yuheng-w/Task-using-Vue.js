@@ -7,8 +7,10 @@
         <div>
             <input-field :submit-function="submitFunction"></input-field>
             <button @click.prevent="deleteItems()"> Delete </button>
+            <button @click.prevent="getCurrentLocation()"> Current Location </button>
             <SearchedRecords :records="records" :selectedCheckboxes="selectedCheckboxes" :key="records"></SearchedRecords>
         </div>
+        <!-- <button @click.prevent="getCurrentLocation()"> Current Location </button> -->
     </GoogleMap>
 
 </template>
@@ -51,6 +53,19 @@ export default defineComponent({
         },
         deleteItems() {
             this.records = this.records.filter((_, index) => !this.seletectedItems.includes(index));
+        },
+        getCurrentLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                console.log("Geolocation is not supported by this browser.");
+            }
+
+            function showPosition(position) {
+                var latitude = position.coords.latitude;
+                var longitude = position.coords.longitude;
+                alert("Current Location:" + "\n" + "Latitude: " + latitude + "\n" + "Longitude: " + longitude)
+            }
         }
     }
     
