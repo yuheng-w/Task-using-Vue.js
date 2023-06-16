@@ -1,8 +1,8 @@
 <template>
     <br>
     <form>
-        <div class="form-inline">
-            <div class="col-5">
+        <div class="row">
+            <div class="col-3">
                 <input
                     type="text"
                     v-model="address"

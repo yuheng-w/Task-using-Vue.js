@@ -6,8 +6,10 @@
     >
         <div>
             <input-field :submit-function="submitFunction"></input-field>
+            <div>
+                <button class="btn btn-success mb-2" @click.prevent="getCurrentLocation()"> Current Location </button>
+            </div>
             <button class="btn btn-primary mb-2" @click.prevent="deleteItems()"> Delete </button>
-            <button class="btn btn-success mb-2" @click.prevent="getCurrentLocation()"> Current Location </button>
             <SearchedRecords :records="records" :selectedCheckboxes="selectedCheckboxes" :key="records"></SearchedRecords>
         </div>
     </GoogleMap>
