@@ -1,6 +1,6 @@
 <template>
         <!-- Display the address -->
-        {{ record.results[0].formatted_address }} 
+        {{ record.formatted_address }} 
 </template>
 
 <script>

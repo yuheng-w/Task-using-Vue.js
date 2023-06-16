@@ -3,36 +3,53 @@
         <ul>
             <!-- Marker for all records -->
             <div v-for="(record, index) in records" :key="index">
-                <Marker :options="{ position: record.results[0].geometry.location }" />
+                <Marker :options="{ position: record.location }" />
             </div>
 
             <!-- Records in current page -->
-            <li v-for="(record, index) in displayedItems" :key="index">
-                <input type="checkbox" @change="selectedCheckboxes(seletectedItems)" :value="start + index" v-model="seletectedItems">
+            <!-- <li v-for="(record, index) in displayedItems" :key="index">
+                <input type="checkbox" @change="selectedCheckboxes(record)">
                 <SingleRecord :record="record"></SingleRecord>
-                <!-- Time zone & local time for latest record -->
                 <div v-if="start + index === this.records.length - 1"> {{ timezone }} <br> {{ localTime }}</div>
-            </li>
+            </li> -->
         </ul>
 
         <!-- Pagination -->
-        <button @click="previousPage" :disabled="currentPage === 1">Previous</button>
+        <!-- <button @click="previousPage" :disabled="currentPage === 1">Previous</button>
         <button @click="nextPage" :disabled="currentPage === totalPages">Next</button>
         <div>
             <span v-for="pageNumber in totalPages" :key="pageNumber">
                 <button @click="goToPage(pageNumber)">{{ pageNumber }}</button>
             </span>
-        </div>
+        </div> -->
+
+        <!-- Record table -->
+        <el-table :data="displayedItems" stripe style="width: 100%" @selection-change="selectedCheckboxes">
+            <el-table-column type="selection" width="55" />
+            <el-table-column prop="formatted_address" label="Formatted address" width="180" />
+            <el-table-column prop="location.lat" label="Latitude" width="180" />
+            <el-table-column prop="location.lng" label="Longitude" width="180" />
+            <el-table-column prop="time_zone" label="Time zone" width="180" />
+            <el-table-column prop="local_time" label="Local Time" />
+        </el-table>
+        <!-- Pagination -->
+        <el-pagination 
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            layout="sizes, prev, pager, next, jumper" 
+            :total="records.length" 
+            :page-size="pageSize"
+            :current-page="currentPage"
+        />
     </div>
 </template>
 
 <script>
-import SingleRecord from './SingleRecord.vue';
 import { Marker } from "vue3-google-map";
 
 
 export default {
-    components: { SingleRecord, Marker },
+    components: { Marker },
     props: {
         records: {
             type: Array,
@@ -41,45 +58,17 @@ export default {
         selectedCheckboxes: {
             type: Function,
             required: true
-        },
+        }
     },
 
     data() {
         return {
             apiKey: process.env.VUE_APP_GOOGLE_MAPS_API_KEY,
-            timezone: "",
-            localTime: "",
             currentPage: 1,
-            itemsPerPage: 10,
-            seletectedItems:[]
+            pageSize: 10,
         }
     },
-
-    mounted() {
-        this.computeTime();
-        setInterval(this.computeTime, 1000);
-    },
-
     methods: {
-        async fetchTimeZone() {
-                let lat = this.records[this.records.length - 1].results[0].geometry.location.lat;
-                let lng = this.records[this.records.length - 1].results[0].geometry.location.lng;
-                const url = `https://maps.googleapis.com/maps/api/timezone/json?location=${lat},${lng}&timestamp=${Math.floor(Date.now() / 1000)}&key=${this.apiKey}`;
-                const res = await fetch(url);
-                return res.json();
-        },
-        computeTime() {
-            if (this.records.length > 0) {
-                this.fetchTimeZone().then((res) => {
-                    const timezone = "Time zone: " + res.timeZoneName; 
-                    const timestamp = Math.floor(Date.now() / 1000);
-                    const localDate = new Date((timestamp + res.dstOffset + res.rawOffset) * 1000);
-                    const localTime = "Local time: " + localDate.toUTCString();
-                    this.timezone = timezone;
-                    this.localTime = localTime;
-                });
-            }
-        },
         nextPage() {
             if (this.currentPage < this.totalPages) {
             this.currentPage++;
@@ -94,21 +83,27 @@ export default {
             if (pageNumber >= 1 && pageNumber <= this.totalPages) {
             this.currentPage = pageNumber;
             }
-        }
+        },
+        handleSizeChange(pageSize) {
+            this.pageSize = pageSize;
+        },
+        handleCurrentChange(currentPage) {
+            this.currentPage = currentPage;
+        },
     },
 
     computed: {
         start() {
-            return (this.currentPage - 1) * this.itemsPerPage;
+            return (this.currentPage - 1) * this.pageSize;
         },
         end() {
-            return this.start + this.itemsPerPage;
+            return this.start + this.pageSize;
         },
         displayedItems() {
             return this.records.slice(this.start, this.end);
         },
         totalPages() {
-            return Math.ceil(this.records.length / this.itemsPerPage);
+            return Math.ceil(this.records.length / this.pageSize);
         }
     },
 }
