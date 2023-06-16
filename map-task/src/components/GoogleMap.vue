@@ -65,6 +65,7 @@ export default defineComponent({
         },
         deleteItems() {
             this.records = this.records.filter((record) => !this.seletectedItems.includes(record));
+            this.computeTime();
         },
         getCurrentLocation() {
             if (navigator.geolocation) {
