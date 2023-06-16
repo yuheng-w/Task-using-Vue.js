@@ -13,7 +13,7 @@
                 <button
                     class="btn btn-primary mb-2"
                     @click.prevent="submitFunction(address)"
-                > Submit </button>
+                > Search </button>
             </div>
         </div>
     </form>
