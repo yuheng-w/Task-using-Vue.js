@@ -6,23 +6,7 @@
                 <Marker :options="{ position: record.location }" />
             </div>
 
-            <!-- Records in current page -->
-            <!-- <li v-for="(record, index) in displayedItems" :key="index">
-                <input type="checkbox" @change="selectedCheckboxes(record)">
-                <SingleRecord :record="record"></SingleRecord>
-                <div v-if="start + index === this.records.length - 1"> {{ timezone }} <br> {{ localTime }}</div>
-            </li> -->
         </ul>
-
-        <!-- Pagination -->
-        <!-- <button @click="previousPage" :disabled="currentPage === 1">Previous</button>
-        <button @click="nextPage" :disabled="currentPage === totalPages">Next</button>
-        <div>
-            <span v-for="pageNumber in totalPages" :key="pageNumber">
-                <button @click="goToPage(pageNumber)">{{ pageNumber }}</button>
-            </span>
-        </div> -->
-
         <!-- Record table -->
         <el-table :data="displayedItems" stripe style="width: 100%" @selection-change="selectedCheckboxes">
             <el-table-column type="selection" width="55" />

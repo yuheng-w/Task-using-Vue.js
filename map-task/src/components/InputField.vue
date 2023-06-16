@@ -1,12 +1,21 @@
 <template>
+    <br>
     <form>
-        <input
-            type="text"
-            v-model="address"
-        />
-        <button
-            @click.prevent="submitFunction(address)"
-        > Submit </button>
+        <div class="form-inline">
+            <div class="col-5">
+                <input
+                    type="text"
+                    v-model="address"
+                    class="form-control mb-2" 
+                />
+            </div>
+            <div class="col-auto">
+                <button
+                    class="btn btn-primary mb-2"
+                    @click.prevent="submitFunction(address)"
+                > Submit </button>
+            </div>
+        </div>
     </form>
 </template>
 
@@ -20,3 +29,9 @@ export default {
     }
 }
 </script>
+
+<style>
+  .inline-elements {
+    display: inline;
+  }
+</style>

@@ -6,8 +6,8 @@
     >
         <div>
             <input-field :submit-function="submitFunction"></input-field>
-            <button @click.prevent="deleteItems()"> Delete </button>
-            <button @click.prevent="getCurrentLocation()"> Current Location </button>
+            <button class="btn btn-primary mb-2" @click.prevent="deleteItems()"> Delete </button>
+            <button class="btn btn-success mb-2" @click.prevent="getCurrentLocation()"> Current Location </button>
             <SearchedRecords :records="records" :selectedCheckboxes="selectedCheckboxes" :key="records"></SearchedRecords>
         </div>
     </GoogleMap>
@@ -21,7 +21,7 @@ import InputField from "./InputField.vue";
 import SearchedRecords from "./SearchedRecords.vue";
 
 export default defineComponent({
-    components: { GoogleMap, InputField, SearchedRecords },
+    components: { GoogleMap, SearchedRecords, InputField },
     data () {
         return {
             apiKey: process.env.VUE_APP_GOOGLE_MAPS_API_KEY,
